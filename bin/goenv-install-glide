@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Summary: goenv glide plugin
+
+set -e
+
+GOPATH=$(goenv prefix)
+
+if [ -z "$prefix" ]; then
+  echo "cannot get goenv prefix" 1>&2
+  exit 1
+fi
+
+GO=$GOPATH/bin/go
+GLIDE=$GOPATH/bin/glide
+
+if [ ! -f "${GLIDE}" ]; then
+  echo "Downloading glide..." 1>&2
+  curl https://glide.sh/get | sh
+fi
