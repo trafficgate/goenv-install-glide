@@ -1,0 +1,16 @@
+language: go
+
+#sudo: required
+sudo: false
+
+before_script:
+  - mkdir -p ~/.goenv/plugins/
+  - ln -sfn "$PWD" ~/.goenv/plugins/goenv-install-glide
+  - goenv rehash
+
+script:
+  - goenv install-glide
+  - [ "$(which glide)" == "${HOME}/.goenv/shims/glide" ]
+  - [ "$(goenv which glide)" == "$(goenv prefix)/bin/glide" ]
+  - glide --version
+  - ls -l "$(goenv prefix)/bin/glide"
