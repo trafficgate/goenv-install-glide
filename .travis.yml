@@ -1,16 +1,20 @@
-language: go
+language: c
 
-#sudo: required
-sudo: false
+dist: xenial
 
 before_script:
+  - git clone https://github.com/syndbg/goenv.git ${HOME}/.goenv
+  - PATH=${HOME}/.goenv/bin:${PATH}
+  - eval "$(goenv init -)"
+  - goenv install 1.11.5
+  - goenv global 1.11.5
   - mkdir -p ~/.goenv/plugins/
-  - ln -sfn "$PWD" ~/.goenv/plugins/goenv-install-glide
+  - ln -nfs "$PWD" ~/.goenv/plugins/goenv-install-glide
   - goenv rehash
 
 script:
   - goenv install-glide
-  - [ "$(which glide)" == "${HOME}/.goenv/shims/glide" ]
-  - [ "$(goenv which glide)" == "$(goenv prefix)/bin/glide" ]
+  - '[ "$(which glide)" == "${HOME}/.goenv/shims/glide" ]'
+  - '[ "$(goenv which glide)" == "$(goenv prefix)/bin/glide" ]'
   - glide --version
   - ls -l "$(goenv prefix)/bin/glide"
