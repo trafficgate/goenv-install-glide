@@ -58,5 +58,15 @@ for option in "${OPTIONS[@]}"; do
 done
 
 export GOPATH=$(goenv prefix)
-curl https://glide.sh/get | sh
+curl -s https://glide.sh/get | sed -e "/^testVersion()/! s/^testVersion//" | sh
 goenv rehash
+
+set +e
+GLIDE="$(which glide)"
+if [ "$?" = "1" ]; then
+  echo "glide not found. Did you add "'$GOBIN'" to your "'$PATH?'
+  exit 1
+fi
+set -e
+GLIDE_VERSION=$(glide -v)
+echo "$GLIDE_VERSION installed successfully"
